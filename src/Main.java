@@ -2,11 +2,12 @@ import java.util.List;
 
 import beans.Order;
 import beans.Schedule;
+import exeption.CustomFileNotFoundExeption;
 import utils.Util;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CustomFileNotFoundExeption {
 
 
 		List<Schedule> show = Util.getInstance().showSchedule();

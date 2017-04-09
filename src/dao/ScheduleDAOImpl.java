@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import beans.Schedule;
 import dao.interfaces.ScheduleDAO;
+import exeption.CustomFileNotFoundExeption;
 
 
 public class ScheduleDAOImpl implements ScheduleDAO {
@@ -33,10 +34,12 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 	/**
 	 * Парсим файл с расписаниями, создаем лист всех сеансов. Здесь индус-стайл
 	 * потому что на xml времени нет, а БД нормальные нельзя использовать :)
+	 * 
+	 * @throws CustomFileNotFoundExeption
 	 */
 
 	@Override
-	public List<Schedule> showAllSchedules() {
+	public List<Schedule> showAllSchedules() throws CustomFileNotFoundExeption {
 		List<Schedule> schedules = new ArrayList<>();
 		Scanner in = null;
 		String nextInputString = "";
@@ -51,8 +54,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				schedules.add(schedule);
 		}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CustomFileNotFoundExeption("Can't find the file", e);
 	}finally
 	{
 		if (in != null) {
@@ -85,10 +87,12 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 	/**
 	 * В этом методе обновляется файл с расписанием
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 * 
 	 */
 	@Override
-	public void updateSchedules(List<Schedule> allSchedules) {
+	public void updateSchedules(List<Schedule> allSchedules) throws CustomFileNotFoundExeption {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("Schedule"), "Cp866"));
@@ -96,9 +100,9 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				pw.println(shedule);
 			}
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			throw new CustomFileNotFoundExeption("Trouble whith encoding", e);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new CustomFileNotFoundExeption("Can't find the file", e);
 		} finally {
 			if (pw != null) {
 				pw.close();
@@ -109,8 +113,10 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 	/**
 	 * проверяет, есть ли такой сеанс
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public boolean checkFindSchedule(String time) {
+	public boolean checkFindSchedule(String time) throws CustomFileNotFoundExeption {
 		boolean check = false;
 		List<Schedule> allSchedules = showAllSchedules();
 		for (Schedule sch : allSchedules) {
@@ -124,7 +130,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		return check;
 	}
 
-	public boolean checkFreePlace(String choicePlace, String time) {
+	public boolean checkFreePlace(String choicePlace, String time) throws CustomFileNotFoundExeption {
 		boolean checkPlace = false;
 		List<String> choicePlaces = new ArrayList<>();
 		// строка из вьюхи, с выбранными местами разрезается в массив

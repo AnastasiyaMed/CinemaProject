@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import beans.Order;
 import command.ActionCommand;
+import exeption.CustomFileNotFoundExeption;
 import utils.ConfigurationManager;
 import utils.MessageManager;
 import utils.Util;
@@ -20,7 +21,7 @@ public class ShowOrdersByNumberCommand implements ActionCommand {
 		String page = null;
 		String time;
 		List<String> placesOrder;
-
+		try {
 		if (request.getParameter(ORDER).matches(("\\d+")) == true) {
 			orderNumber = Integer.parseInt(request.getParameter(ORDER));
 		} else {
@@ -43,6 +44,10 @@ public class ShowOrdersByNumberCommand implements ActionCommand {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("numberOrder", orderNumber);
 		page = ConfigurationManager.getProperty("path.page.order");
+		}
+		} catch (CustomFileNotFoundExeption e) {
+			request.setAttribute("exeptionMessage", MessageManager.getProperty("message.exeptionMessage"));
+			page = ConfigurationManager.getProperty("path.page.showorder");
 		}
 		return page;
 	}

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import beans.Order;
 import command.ActionCommand;
+import exeption.CustomFileNotFoundExeption;
 import utils.ConfigurationManager;
 import utils.MessageManager;
 import utils.Util;
@@ -22,7 +23,7 @@ public class ReservationCommand implements ActionCommand {
 		String page = null;
 		String goTime = request.getParameter(TIME);
 		String goPlace = request.getParameter(PLACE);
-
+		try {
 		if ((Util.getInstance().checkFindSchedule(goTime)) == false) {
 			request.setAttribute("errorTimeMessage", MessageManager.getProperty("message.errorTimeMessage"));
 			page = ConfigurationManager.getProperty("path.page.showschedule");
@@ -40,7 +41,10 @@ public class ReservationCommand implements ActionCommand {
 				int numberOrder = order.getNumberOfOrder();
 				session.setAttribute("numberOrder", numberOrder);
 				page = ConfigurationManager.getProperty("path.page.order");
-
+		}
+		} catch (CustomFileNotFoundExeption e) {
+			request.setAttribute("exeptionMessage", MessageManager.getProperty("message.exeptionMessage"));
+			page = ConfigurationManager.getProperty("path.page.showschedule");
 		}
 		return page;
 	}

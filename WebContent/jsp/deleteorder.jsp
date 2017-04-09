@@ -65,6 +65,14 @@ body {
 							</h4>
 						</div>
 					</c:if>
+					<c:if test="${not empty exeptionMessage}">
+						<div class="text-center">
+							<h4>
+								<font color="blue"><fmt:message key="message.errorOrderMessage" /></font>
+								
+							</h4>
+						</div>
+					</c:if>
 				</form>
 			</div>
 		</div>

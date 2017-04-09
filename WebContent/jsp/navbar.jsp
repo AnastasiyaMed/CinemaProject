@@ -35,6 +35,7 @@
 					<button type="submit" class="btn btn-default">
 						<fmt:message key="nav.order.number" />
 					</button>
+				
 				</form>
 
 				<form action="controller" method="POST"
@@ -59,6 +60,7 @@
 					<button type="submit" class="btn btn-default">
 						<fmt:message key="nav.goto.menu" />
 					</button>
+					
 				</form>
 			</div>
 		</div>

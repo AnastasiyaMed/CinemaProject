@@ -7,6 +7,7 @@ import beans.Order;
 import beans.Schedule;
 import dao.OrderDAOImpl;
 import dao.ScheduleDAOImpl;
+import exeption.CustomFileNotFoundExeption;
 
 public class Util {
 	private static Util instance;
@@ -28,9 +29,11 @@ public class Util {
 	/**
 	 * Просмотр всех сеансов
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
 
-	public List<Schedule> showSchedule() {
+	public List<Schedule> showSchedule() throws CustomFileNotFoundExeption {
 		List<Schedule> scheduleToShow = ScheduleDAOImpl.getInstance().showAllSchedules();
 		return scheduleToShow;
 	}
@@ -38,9 +41,11 @@ public class Util {
 	/**
 	 * Просмотр всех заказов
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
 
-	public List<Order> showOrders() {
+	public List<Order> showOrders() throws CustomFileNotFoundExeption {
 		List<Order> orders = OrderDAOImpl.getInstance().showAllOrderes();
 		return orders;
 	}
@@ -48,8 +53,10 @@ public class Util {
 	/**
 	 * метод находит заказ по номеру
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public Order findOrderByNumber(int numberOfOrder) {
+	public Order findOrderByNumber(int numberOfOrder) throws CustomFileNotFoundExeption {
 		Order order = OrderDAOImpl.getInstance().findOrderByNumber(numberOfOrder);
 		return order;
 	}
@@ -58,8 +65,10 @@ public class Util {
 	/**
 	 * создание нового заказа
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public Order createNewOrder(String choice, String choicePlacesOrder) {
+	public Order createNewOrder(String choice, String choicePlacesOrder) throws CustomFileNotFoundExeption {
 
 		List<String> placesOrder = new ArrayList<String>();
 		List<Schedule> scheduleToShow = showSchedule(); // усе расписания
@@ -94,8 +103,10 @@ public class Util {
 	/**
 	 * просмотр заказа по номеру
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public Order showFindOrder(int numberFindOrder) {
+	public Order showFindOrder(int numberFindOrder) throws CustomFileNotFoundExeption {
 		List<Order> allOrders = OrderDAOImpl.getInstance().showAllOrderes();
 		Order findOrder = null;
 		for (Order anyOrder : allOrders) {
@@ -109,8 +120,10 @@ public class Util {
 	/**
 	 * проверяет, есть ли такой сеанс
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public boolean checkFindSchedule(String time) {
+	public boolean checkFindSchedule(String time) throws CustomFileNotFoundExeption {
 		boolean check = ScheduleDAOImpl.getInstance().checkFindSchedule(time);
 		return check;
 	}
@@ -119,9 +132,11 @@ public class Util {
 	/**
 	 * удаление заказа
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
 
-	public void deleteOrder(int numberFindOrder) {
+	public void deleteOrder(int numberFindOrder) throws CustomFileNotFoundExeption {
 		Order order = showFindOrder(numberFindOrder);
 		// возвращаем места из заказа обратно расписание
 		// сделана заглушка для консольного варианта, надо обработать вариант с возвращением заказа null по другому, чтобы можно было передать информацию на вью
@@ -148,7 +163,7 @@ public class Util {
 		}
 	}
 
-	public boolean checkFreePlace(String choicePlace, String time) {
+	public boolean checkFreePlace(String choicePlace, String time) throws CustomFileNotFoundExeption {
 		boolean checkPlace = ScheduleDAOImpl.getInstance().checkFreePlace(choicePlace, time);
 		return checkPlace;
 	}
@@ -156,8 +171,10 @@ public class Util {
 	/**
 	 * метод проверяет, есть ли такой заказ
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public boolean checkNumberOfOrder(int numberOfOrder) {
+	public boolean checkNumberOfOrder(int numberOfOrder) throws CustomFileNotFoundExeption {
 		boolean check = false;
 		check = OrderDAOImpl.getInstance().checkNumberOfOrder(numberOfOrder);
 		return check;

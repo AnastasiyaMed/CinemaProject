@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import beans.Order;
 import dao.interfaces.OrderDAO;
+import exeption.CustomFileNotFoundExeption;
 
 
 public class OrderDAOImpl implements OrderDAO {
@@ -28,7 +29,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<Order> showAllOrderes() {
+	public List<Order> showAllOrderes() throws CustomFileNotFoundExeption {
 		List<Order> orders = new ArrayList<>();
 		Scanner in = null;
 		String nextInputString = "";
@@ -43,7 +44,7 @@ public class OrderDAOImpl implements OrderDAO {
     		orders.add(order);
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new CustomFileNotFoundExeption("Can't find the file", e);
 		} finally {
 			if (in != null) {
 				in.close();
@@ -74,8 +75,10 @@ public class OrderDAOImpl implements OrderDAO {
 	/**
 	 * метод находит заказ по номеру
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public Order findOrderByNumber(int numberOfOrder) {
+	public Order findOrderByNumber(int numberOfOrder) throws CustomFileNotFoundExeption {
 		Order order = new Order();
 		List<Order> allOrders = showAllOrderes();
 		for (Order anyOrder : allOrders) {
@@ -89,9 +92,11 @@ public class OrderDAOImpl implements OrderDAO {
 
 	/**
 	 * перезаписываем файл со списком заказов
+	 * 
+	 * @throws CustomFileNotFoundExeption
 	 */
 	@Override
-	public void updateOrder(List<Order> allOrders) {
+	public void updateOrder(List<Order> allOrders) throws CustomFileNotFoundExeption {
 		PrintWriter pw = null;
 		File orders = new File("Order");
 		if (orders.exists()) {
@@ -99,7 +104,7 @@ public class OrderDAOImpl implements OrderDAO {
 				orders.delete();
 				orders.createNewFile();
 			} catch (IOException ex) {
-				System.out.println("Ошибкa");
+				throw new CustomFileNotFoundExeption("Trouble whith writing to file ", ex);
 			}
 		}
 		try {
@@ -108,7 +113,7 @@ public class OrderDAOImpl implements OrderDAO {
 				pw.println(order);
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new CustomFileNotFoundExeption("Can't find the file", e);
 		} finally {
 			if (pw != null) {
 				pw.close();
@@ -118,8 +123,10 @@ public class OrderDAOImpl implements OrderDAO {
 
 	/**
 	 * метод дает начальное значение счетчичка заказов
+	 * 
+	 * @throws CustomFileNotFoundExeption
 	 */
-	public int setInitialCount() {
+	public int setInitialCount() throws CustomFileNotFoundExeption {
 		int initialCount = 0;
 		List<Order> allOrders = showAllOrderes();
 		initialCount = (allOrders.size() + 1);
@@ -130,8 +137,10 @@ public class OrderDAOImpl implements OrderDAO {
 	/**
 	 * метод проверяет, есть ли такой заказ
 	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
 	 */
-	public boolean checkNumberOfOrder(int numberOfOrder) {
+	public boolean checkNumberOfOrder(int numberOfOrder) throws CustomFileNotFoundExeption {
 		boolean check = false;
 		List<Order> allOrders = showAllOrderes();
 		for (Order order : allOrders) {

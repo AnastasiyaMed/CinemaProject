@@ -63,6 +63,14 @@ body {
 					<button type="submit" class="btn btn-primary">
 						<fmt:message key="button.register" />
 					</button>
+					<c:if test="${not empty exeptionMessage}">
+						<div class="text-center">
+							<h4>
+								<font color="blue"><fmt:message key="message.errorOrderMessage" /></font>
+								
+							</h4>
+						</div>
+					</c:if>
 					<c:if test="${not empty errorTimeMessage}">
 						<div class="text-center">
 							<h4>
@@ -77,6 +85,7 @@ body {
 							</h4>
 						</div>
 					</c:if>
+					
 				</form>
 			</div>
 		</div>

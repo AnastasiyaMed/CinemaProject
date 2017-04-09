@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import dao.OrderDAOImpl;
+import exeption.CustomFileNotFoundExeption;
 
 public class Order implements Serializable {
 	/**
@@ -25,8 +26,9 @@ public class Order implements Serializable {
 	 * 
 	 * @param showTime
 	 * @param placesOrder
+	 * @throws CustomFileNotFoundExeption
 	 */
-	public Order(String showTime, List<String> placesOrder) {
+	public Order(String showTime, List<String> placesOrder) throws CustomFileNotFoundExeption {
 		this.numberOfOrder = OrderDAOImpl.getInstance().setInitialCount();
 		this.showTime = showTime;
 		this.placesOrder = placesOrder;
