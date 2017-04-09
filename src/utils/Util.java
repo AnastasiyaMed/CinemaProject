@@ -163,6 +163,12 @@ public class Util {
 		}
 	}
 
+	/**
+	 * метод проверяет, свободны ли места
+	 * 
+	 * @throws CustomFileNotFoundExeption
+	 * 
+	 */
 	public boolean checkFreePlace(String choicePlace, String time) throws CustomFileNotFoundExeption {
 		boolean checkPlace = ScheduleDAOImpl.getInstance().checkFreePlace(choicePlace, time);
 		return checkPlace;

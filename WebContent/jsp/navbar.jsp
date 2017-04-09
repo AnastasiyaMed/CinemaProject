@@ -33,7 +33,8 @@
 					class="navbar-form navbar-left">
 					<input type="hidden" name="command" value="SHOW_ORDER">
 					<button type="submit" class="btn btn-default">
-						<fmt:message key="nav.order.number" />
+						<fmt:message key="nav.order.number" /> -
+						${countOrder}
 					</button>
 				
 				</form>

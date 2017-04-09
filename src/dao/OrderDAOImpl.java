@@ -127,12 +127,20 @@ public class OrderDAOImpl implements OrderDAO {
 	 * @throws CustomFileNotFoundExeption
 	 */
 	public int setInitialCount() throws CustomFileNotFoundExeption {
-		int initialCount = 0;
+		int initialCount = 1;
 		List<Order> allOrders = showAllOrderes();
-		initialCount = (allOrders.size() + 1);
+		while ((checkNumberOfOrder(initialCount) == true)) {
+			for (Order order : allOrders) {
+				if (initialCount == order.getNumberOfOrder()) {
+					initialCount++;
+				}
+			}
+		}
 		return initialCount;
 
 	}
+
+
 
 	/**
 	 * метод проверяет, есть ли такой заказ

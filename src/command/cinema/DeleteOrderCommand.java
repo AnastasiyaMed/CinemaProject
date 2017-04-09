@@ -3,6 +3,7 @@ package command.cinema;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import beans.Order;
 import command.ActionCommand;
@@ -18,6 +19,7 @@ public class DeleteOrderCommand implements ActionCommand {
 	@Override
 	public String execute(HttpServletRequest request) {
 		int orderNumber = 0;
+		int countOrder = 0;
 		String page = null;
 		if (request.getParameter(ORDER).matches(("\\d+")) == true) {
 			orderNumber = Integer.parseInt(request.getParameter(ORDER));
@@ -34,7 +36,11 @@ public class DeleteOrderCommand implements ActionCommand {
 				Util.getInstance().deleteOrder(orderNumber);
 				List<Order> list;
 				list = Util.getInstance().showOrders();
+				countOrder = list.size();
 				request.setAttribute("list", list);
+				HttpSession session = request.getSession(true);
+				session.setAttribute("list", list);
+				session.setAttribute("countOrder", countOrder);
 				page = ConfigurationManager.getProperty("path.page.showorder");
 			}
 		} catch (CustomFileNotFoundExeption e) {
