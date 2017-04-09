@@ -26,11 +26,10 @@ public class ReservationCommand implements ActionCommand {
 		if ((Util.getInstance().checkFindSchedule(goTime)) == false) {
 			request.setAttribute("errorTimeMessage", MessageManager.getProperty("message.errorTimeMessage"));
 			page = ConfigurationManager.getProperty("path.page.showschedule");
-		} else {
-			if ((Util.getInstance().checkFreePlace(goPlace, goTime)) == false) {
+		} else if ((Util.getInstance().checkFreePlace(goPlace, goTime)) == false) {
 				request.setAttribute("errorPlaceMessage", MessageManager.getProperty("message.errorPlaceMessage"));
 				return page = ConfigurationManager.getProperty("path.page.showschedule");
-			} else {
+		} else if (((Util.getInstance().checkFindSchedule(goTime)) == true) && ((Util.getInstance().checkFreePlace(goPlace, goTime)) == true)) {
 				Order order = new Order();
 				order = Util.getInstance().createNewOrder(goTime, goPlace);
 				List<Order> orderList = new ArrayList<>();
@@ -41,7 +40,7 @@ public class ReservationCommand implements ActionCommand {
 				int numberOrder = order.getNumberOfOrder();
 				session.setAttribute("numberOrder", numberOrder);
 				page = ConfigurationManager.getProperty("path.page.order");
-			}
+
 		}
 		return page;
 	}

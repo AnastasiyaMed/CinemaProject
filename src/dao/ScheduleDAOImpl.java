@@ -136,17 +136,18 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 			choicePlaces.add(place);
 		}
 
-		List<String> freePlace = null;
+		List<String> freePlace = new ArrayList<>();
 		List<Schedule> allSchedules = showAllSchedules();
 		for (Schedule sch : allSchedules) {
 			if (time.equals(sch.getTime())) {
 				freePlace = sch.getPlaces();
 			}
 		}
-		if (freePlace.containsAll(choicePlaces)) {
+		if ((choicePlaces.size() > 0) && (freePlace.containsAll(choicePlaces))) {
 			checkPlace = true;
-		} else
+		} else {
 			checkPlace = false;
+		}
 		return checkPlace;
 	}
 
